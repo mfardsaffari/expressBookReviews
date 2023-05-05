@@ -1,4 +1,5 @@
 const express = require('express');
+const axios = require('axios').default;
 let books = require("./booksdb.js");
 let isValid = require("./auth_users.js").isValid;
 let users = require("./auth_users.js").users;
@@ -78,6 +79,17 @@ public_users.get('/review/:isbn',function (req, res) {
   }
   else
     return res.status(300).json({message: "Book not found!"});
+});
+
+
+// Get the book list available by axios
+public_users.get('/axios',function (req, res) {
+  const instance = axios.get('https://mfardsaffari-5000.theiadocker-1-labs-prod-theiak8s-4-tor01.proxy.cognitiveclass.ai');
+  instance.then(resp => {
+    return res.status(200).send(JSON.stringify(resp.data,null,4));
+  }).catch(err => {
+    return res.status(300).json({message: "Error happened!"});
+  });
 });
 
 module.exports.general = public_users;
