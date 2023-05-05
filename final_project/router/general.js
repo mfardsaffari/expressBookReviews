@@ -92,4 +92,30 @@ public_users.get('/axios',function (req, res) {
   });
 });
 
+
+// Get book by isbn with axios - type 2
+/*public_users.get('/axios',async (req, res) => {
+  const searchedISBN = parseInt(req.params.isbn);
+  try {
+    const resp = await axios.get('https://mfardsaffari-5000.theiadocker-1-labs-prod-theiak8s-4-tor01.proxy.cognitiveclass.ai');
+    return res.status(200).send(JSON.stringify(resp.data,null,4));
+  }
+  catch (e) {
+    return res.status(300).json({message: "Error happened!"});
+  }
+});*/
+
+// Get book by isbn with axios async/await
+public_users.get('/axios-isbn/:isbn',async (req, res) => {
+  const searchedISBN = parseInt(req.params.isbn);
+  try {
+    const resp = await axios.get(`https://mfardsaffari-5000.theiadocker-1-labs-prod-theiak8s-4-tor01.proxy.cognitiveclass.ai/isbn/${searchedISBN}`);
+    return res.send(JSON.stringify(resp.data,null,4));
+  }
+  catch (e) {
+    return res.status(300).json({message: "Book not found!"});
+  }
+});
+
+
 module.exports.general = public_users;
