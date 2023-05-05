@@ -117,5 +117,17 @@ public_users.get('/axios-isbn/:isbn',async (req, res) => {
   }
 });
 
+// Get book by author with axios async/await
+public_users.get('/axios-author/:author',async (req, res) => {
+  const searchedAuthor = req.params.author;
+  try {
+    const resp = await axios.get(`https://mfardsaffari-5000.theiadocker-1-labs-prod-theiak8s-4-tor01.proxy.cognitiveclass.ai/author/${searchedAuthor}`);
+    return res.send(JSON.stringify(resp.data,null,4));
+  }
+  catch (e) {
+    return res.status(300).json({message: "No book found for this author!"});
+  }
+});
+
 
 module.exports.general = public_users;
